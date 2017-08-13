@@ -1,3 +1,13 @@
+const wW = window.innerWidth
+const wH = window.innerHeight
+  || window.screen.height
+  || document.documentElement.clientHeight
+  || $(window).height()
+
+const detectHotItems = wW > 975? -200 : 0
+const mil = document.getElementsByClassName('mil')
+const mir = document.getElementsByClassName('mir')
+
 const reviews = [
   {
     name: 'CHIXUNXAN_OvO',
@@ -26,9 +36,20 @@ const reviews = [
   {
     name: 'VŨ NHẬT HOA',
     avatar: '/imgs/avatar4.png',
-    comment: 'Ấn tượng đầu tiên của mình với toco là giá khá rẻ so với mặt bằng các quán trá sữa khác và menu cũng đa dạng nhiều loại. Một cốc size M có cả trân châu rồi cũng chỉ tâm 30k thôi, khá giẻ với mặt bằng chung. Và đặc biệt có trân châu sợi khá ổn, lại rẻ nữa chỉ 6k thôi đầy cốc ăn kiểu dẻo dẻo dai dai mà giống thạch trong chè thái ý :)))'
+    comment: 'Ấn tượng đầu tiên của mình với toco là giá khá rẻ so với mặt bằng các quán trá sữa khác và menu cũng đa dạng nhiều loại. Một cốc size M có cả trân châu rồi cũng chỉ tâm 35k thôi, khá giẻ với mặt bằng chung. Và đặc biệt có trân châu sợi khá ổn, lại rẻ nữa chỉ 6k thôi đầy cốc ăn kiểu dẻo dẻo dai dai mà giống thạch trong chè thái ý :)))'
   }
 ]
+
+
+const setReviwe = index => {
+  boxFade.className = 'fadeout'
+  setTimeout(() => {
+    rname.innerHTML = reviews[currentReview].name
+    rcomment.innerHTML = reviews[currentReview].comment
+    ravatar.src = reviews[currentReview].avatar
+    boxFade.className = 'fadein'
+  }, 333)
+}
 
 
 let currentReview = 0
@@ -40,9 +61,7 @@ const nextReview = () => {
     currentReview++
   }
 
-  rname.innerHTML = reviews[currentReview].name
-  rcomment.innerHTML = reviews[currentReview].comment
-  ravatar.src = reviews[currentReview].avatar
+  setReviwe(currentReview)
 }
 
 const prevReview = () => {
@@ -52,13 +71,27 @@ const prevReview = () => {
     currentReview--
   }
 
-  rname.innerHTML = reviews[currentReview].name
-  rcomment.innerHTML = reviews[currentReview].comment
-  ravatar.src = reviews[currentReview].avatar
+  setReviwe(currentReview)
 }
 
+const handleScroll = () => {
+  for (let i = 0; i < mil.length; i++) {
+    if (mil[i].getBoundingClientRect().top < wH + detectHotItems) {
+      mil[i].className = 'mil active'
+    }
+  }
 
+  for (let i = 0; i < mir.length; i++) {
+    if (mir[i].getBoundingClientRect().top < wH + detectHotItems) {
+      mir[i].className = 'mir active'
+    }
+  }
 
+  if (ibtn.getBoundingClientRect().top < wH + detectHotItems) {
+    ibtn.className = 'btn-dat-cho black active'
+    window.removeEventListener('scroll', handleScroll)
+  }
+}
 
 next.addEventListener('click', () => {
   nextReview()
@@ -70,19 +103,4 @@ prev.addEventListener('click', () => {
   console.log('prev rv');
 })
 
-var mil = document.getElementsByClassName('mil')
-var mir = document.getElementsByClassName('mir')
-
-window.addEventListener('scroll', () => {
-  for (let i = 0; i < mil.length; i++) {
-    if (mil[i].getBoundingClientRect().top < window.outerHeight-200) {
-      mil[i].className = 'mil active'
-    }
-  }
-
-  for (let i = 0; i < mir.length; i++) {
-    if (mir[i].getBoundingClientRect().top < window.outerHeight-200) {
-      mir[i].className = 'mir active'
-    }
-  }
-})
+window.addEventListener('scroll', handleScroll)
