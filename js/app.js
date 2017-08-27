@@ -12,27 +12,23 @@ const reviews = [
   {
     name: 'CHIXUNXAN_OvO',
     avatar: '/imgs/avatar.png',
-    comment: 'Uống rất vừa miệng, trân châu ở toco khá ngon :3 nhất là trân châu sợ. Một điểm mạnh cho quán là hôm nay mình qua các bạn nhân viên siêu dễ thương, pha đồ xong còn hỏi mình là uống có được không, có bị ngọt hay nhạt quá không, quan trong là các bạn ấy dễ thương và nhẹ nhàng như trai Hàn >w<'
+    comment: 'Uống rất vừa miệng, trân châu ở toco khá ngon :3 nhất là trân châu sợi. Một điểm mạnh cho quán là hôm nay mình qua các bạn nhân viên siêu dễ thương, pha đồ xong còn hỏi mình là uống có được không, có bị ngọt hay nhạt quá không, quan trong là các bạn ấy dễ thương và nhẹ nhàng như trai Hàn >w<'
   },
-
   {
     name: 'FALL FIN',
     avatar: '/imgs/avatar1.png',
     comment: 'Thích trà xanh của Tocotoco, vị ngọt vừa phải, hoà cùng vị chua nhẹ nên giải khát tốt. Tối qua vừa uống 3 ly trà sữa Chago nên sáng nay thấy hơi hơi ngán vị ngọt. Thêm sáng chưa ăn gì uống trà chua để tráng bao tử. Mình thích uống giảm đường giảm đá nên thức uống thấy ngon đậm đà hơn hẳn.'
   },
-
   {
     name: 'HUYỀN PHẠM',
     avatar: '/imgs/avatar2.png',
     comment: 'Trà sữa ngọt, trân châu dai dai dẻo dẻo, pudding thơm ngậy, rau câu mềm mịn không có điểm nào để chê :< Ngoài ra mình còn thích cái túi đựng takeaway của Tocotoco vì trông rất cute với cái logo =))) Nói chung là yêu Tocotoco hehee =)))))'
   },
-
   {
     name: 'LOAN HOÀNG',
     avatar: '/imgs/avatar3.png',
     comment: 'Nhân viên nice, nhanh nhẹn. Đồ làm nhanh. Mình thì toàn uống trà sữa panda và 3 anh em sz M  giảm 10% còn 69k. Uống ngon lành, đã khát lắm, thích thì giảm xuống còn 70% đường uống vẫn ngon lắm nha. Mình thích trân châu sợi hơn là các loại topping khác, nhưng mà hay hết lắm.'
   },
-
   {
     name: 'VŨ NHẬT HOA',
     avatar: '/imgs/avatar4.png',
@@ -93,14 +89,43 @@ const handleScroll = () => {
   }
 }
 
+$(window).on("swipeleft",function(){
+  alert("You swiped left!");
+});
+
+setTimeout(() => {
+  nextReview()
+}, 4000)
+
+// Handle Swipe
+let startTouch = 0
+let endTouch = 0
+
+review.addEventListener("touchstart", event => {
+  startTouch = event.targetTouches[0].clientX;
+}, false);
+
+review.addEventListener("touchend", event => {
+  endTouch = event.changedTouches[0].clientX;
+  if (startTouch !== 0) {
+    if (endTouch - startTouch > 150) {
+      nextReview()
+    } else if (endTouch - startTouch < -150) {
+      prevReview()
+    }
+  }
+}, false);
+
+review.addEventListener("touchcancel", event => {
+  console.log('cancel move');
+}, false);
+
 next.addEventListener('click', () => {
   nextReview()
-  console.log('next rv');
 })
 
 prev.addEventListener('click', () => {
   prevReview()
-  console.log('prev rv');
 })
 
 window.addEventListener('scroll', handleScroll)
